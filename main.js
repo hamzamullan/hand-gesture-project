@@ -35,3 +35,39 @@ function speak(){
  var utterThis = new SpeechSynthesisUtterance(speak_data_1 + speak_data_2 + speak_data_3);
  synth.speak(Utterthis);
 }
+
+function check(){
+    img = document.getElementById("captured_image");
+    classifier.classify(img, gotResult);
+}
+
+function gotResult(error, results){
+   if(error){
+       console.error(error);
+    }
+   else{
+       console.log(results);
+       document.getElementById("result_object_name").innerHTML = results[0].label;
+       gesture = results[0].label;
+       toSpeak = "";
+       if( gesture == "amazing"){
+           toSpeak = "this is looking amazing";
+           document.getElementById("result_object_gesture_icon").innerHTML = "&#128076;";
+       }
+       else if( gesture == "best"){
+        toSpeak = "this is looking all the best";
+        document.getElementById("result_object_gesture_icon").innerHTML = "&#128077;";
+       }
+       else if( gesture == "victory"){
+        toSpeak = "that was a victory";
+        document.getElementById("result_object_gesture_icon").innerHTML = "&#9996;";
+       }
+       speak();
+   }
+}
+function speak(){
+    var synth = window.speechSynthesis;
+    speak_data = toSpeak;
+    var utterThis = new SpeechSynthesisUtterance(speak_data);
+    synth.speak(utterThis);
+}
